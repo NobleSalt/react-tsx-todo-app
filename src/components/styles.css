@@ -40,14 +40,15 @@
     right: 0px;
     border: none;
     font-size: 15px;
-    background-color: #2f74c0;
+    background-color: rgb(16 185 129/1);
     color: white;
     transition: 0.2s all;
     box-shadow: 0 0 10px black;
 }
 
 .input__submit:hover {
-    background-color: #388ae2;
+    background-color: rgb(16 185 129/1);
+    /* background-color: #388ae2; */
     cursor: pointer;
 }
 
