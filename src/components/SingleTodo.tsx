@@ -16,7 +16,7 @@ interface ITodo {
     setTodo: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const SingleTodo: React.FC<ITodo> = ({ todo, handleRemove, setTodo }) => {
+export const SingleTodo: React.FC<ITodo> = ({ todo, handleRemove, setTodos, todos }) => {
     const [edit, setEdit] = useState<string>(todo.todo)
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [isDone, SetIsDone] = useState<boolean>(todo.isDone)
@@ -24,6 +24,7 @@ export const SingleTodo: React.FC<ITodo> = ({ todo, handleRemove, setTodo }) => 
     const handleEdit = (e: React.FormEvent) => {
         e.preventDefault()
         if (edit) {
+            setTodos(todos.map(i => i.id === todo.id ? { id: i.id, isDone: isDone, todo: edit } : i))
             setEdit(edit)
             setIsEdit(false)
         }
