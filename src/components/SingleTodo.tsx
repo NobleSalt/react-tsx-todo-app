@@ -1,7 +1,7 @@
 import { Todo } from "./model";
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import { MdDone } from 'react-icons/md'
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 // type ITodo = {
 //     todo: Todo;
@@ -20,6 +20,7 @@ export const SingleTodo: React.FC<ITodo> = ({ todo, handleRemove, setTodos, todo
     const [edit, setEdit] = useState<string>(todo.todo)
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [isDone, SetIsDone] = useState<boolean>(todo.isDone)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const handleEdit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -27,14 +28,23 @@ export const SingleTodo: React.FC<ITodo> = ({ todo, handleRemove, setTodos, todo
             setTodos(todos.map(i => i.id === todo.id ? { id: i.id, isDone: isDone, todo: edit } : i))
             setEdit(edit)
             setIsEdit(false)
+            inputRef.current?.blur()
+        }
+    }
+
+    const handleEditClick = () => {
+        setIsEdit(true)
+        if (inputRef) {
+            inputRef.current?.click()
+            console.log('Ah')
         }
     }
 
     return (
         <form action="" className="todos__single" onSubmit={(e) => handleEdit(e)}>
-            {isEdit ? (<input className="input-edit" value={edit} onChange={(e) => { setEdit(e.target.value) }} />) : (<span className="todos__single--text" onDoubleClick={() => { setIsEdit(true) }} style={{ textDecoration: isDone ? 'line-through' : 'auto' }} >{edit}</span>)}
+            {isEdit ? (<input className="input-edit" value={edit} ref={inputRef} onChange={(e) => { setEdit(e.target.value) }} />) : (<span className="todos__single--text" onDoubleClick={handleEditClick} style={{ textDecoration: isDone ? 'line-through' : 'auto' }} >{edit}</span>)}
             <div>
-                <span className="icon" onClick={() => { setIsEdit(true) }}>
+                <span className="icon" onClick={handleEditClick}>
                     <AiFillEdit />
                 </span>
                 <span className="icon" onClick={() => { handleRemove(todo) }}>
